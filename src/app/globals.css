@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #05060a;
+  --background: #252a31;
   --foreground: #f5f7fb;
 }
 
@@ -24,14 +24,14 @@ body {
   overflow-x: hidden;
   background: var(--background);
   background-image:
-    radial-gradient(circle at top left, rgba(105, 124, 255, 0.14), transparent 24%),
-    radial-gradient(circle at top right, rgba(79, 211, 255, 0.1), transparent 22%),
-    linear-gradient(180deg, #05060a 0%, #080b12 42%, #05060a 100%);
+    radial-gradient(circle at top left, rgba(252, 184, 78, 0.12), transparent 26%),
+    radial-gradient(circle at top right, rgba(117, 132, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, #31363d 0%, #262b32 32%, #20242b 72%, #252a31 100%);
   color: var(--foreground);
 }
 
 ::selection {
-  background: rgba(160, 177, 255, 0.35);
+  background: rgba(255, 202, 115, 0.28);
   color: #ffffff;
 }
 
@@ -45,14 +45,14 @@ button {
 }
 
 .glass-panel {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035));
   backdrop-filter: blur(20px);
 }
 
 .hero-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 3.5rem 3.5rem;
   mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent 100%);
 }
