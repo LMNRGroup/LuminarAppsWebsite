@@ -52,25 +52,30 @@ const heroHighlights = [
   },
 ] as const;
 
-const audienceAreas = ["Brands", "Businesses", "Public Spaces"] as const;
+const audienceAreas = [
+  "Government",
+  "Corporate",
+  "Brands",
+  "Public Spaces",
+] as const;
 
 export function LandingPage() {
   const shouldReduceMotion = useReducedMotion();
   const year = new Date().getFullYear();
 
   return (
-    <div id="top" className="relative min-h-screen overflow-x-clip">
+    <div id="top" className="relative isolate min-h-screen overflow-x-clip">
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-20 overflow-hidden"
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
       >
         <FlickeringGrid
-          className="absolute inset-0 size-full [mask-image:radial-gradient(ellipse_at_center,white,transparent_82%)]"
-          color="#94a3b8"
-          flickerChance={shouldReduceMotion ? 0 : 0.06}
-          gridGap={6}
-          maxOpacity={0.18}
-          squareSize={4}
+          className="absolute inset-0 size-full opacity-100"
+          color="#60A5FA"
+          flickerChance={shouldReduceMotion ? 0 : 0.28}
+          gridGap={5}
+          maxOpacity={1}
+          squareSize={5}
         />
       </div>
 
@@ -99,7 +104,7 @@ export function LandingPage() {
         </div>
       </header>
 
-      <main className="relative">
+      <main className="relative z-10">
         <section className="border-b border-white/8">
           <div className="mx-auto grid w-full max-w-7xl gap-16 px-6 py-20 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-20 lg:px-10 lg:py-32">
             <Reveal className="max-w-3xl">
@@ -276,7 +281,7 @@ export function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-white/8">
+      <footer className="relative z-10 border-t border-white/8">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-6 py-8 text-sm text-white/48 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <div className="flex flex-col gap-4">
             <BrandLogo variant="footer" />

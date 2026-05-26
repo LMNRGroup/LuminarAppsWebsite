@@ -213,8 +213,12 @@ export function TypewriterText({
   };
 
   return (
-    <span ref={containerRef} className={`block overflow-visible ${className ?? ""}`}>
-      {renderDisplayedText()}
+    <span
+      ref={containerRef}
+      className={`relative block overflow-visible ${className ?? ""}`}
+    >
+      <span className="pointer-events-none invisible block">{text}</span>
+      <span className="absolute inset-0 block">{renderDisplayedText()}</span>
     </span>
   );
 }
