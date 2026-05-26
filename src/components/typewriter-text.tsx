@@ -193,35 +193,31 @@ export function TypewriterText({
     );
     const after = text.slice(matchIndex + highlightWord.length);
 
-    const gradientWord = (
-      <span className="gradient-reveal-fill inline-block">{highlightedText}</span>
-    );
-
     return (
       <>
         {before}
-        {highlightRevealComplete ? (
-          gradientWord
-        ) : (
-          <span className="relative inline-block">
-            <span className="text-white/45">{highlightedText}</span>
-            <motion.span
-              animate={{ clipPath: "inset(0 0 0 0)" }}
-              className="gradient-reveal-fill absolute inset-0 block"
-              initial={
-                shouldReduceMotion
-                  ? { clipPath: "inset(0 0 0 0)" }
-                  : { clipPath: "inset(0 100% 0 0)" }
-              }
-              onAnimationComplete={() => {
-                setHasCompletedHighlightReveal(true);
-              }}
-              transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              {highlightedText}
-            </motion.span>
+        <span className="relative inline-block align-baseline">
+          <span
+            className={highlightRevealComplete ? "text-transparent" : "text-white/45"}
+          >
+            {highlightedText}
           </span>
-        )}
+          <motion.span
+            animate={{ clipPath: "inset(0 0 0 0)" }}
+            className="gradient-reveal-fill absolute inset-0 block whitespace-pre"
+            initial={
+              shouldReduceMotion
+                ? { clipPath: "inset(0 0 0 0)" }
+                : { clipPath: "inset(0 100% 0 0)" }
+            }
+            onAnimationComplete={() => {
+              setHasCompletedHighlightReveal(true);
+            }}
+            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            {highlightedText}
+          </motion.span>
+        </span>
         {after}
       </>
     );
