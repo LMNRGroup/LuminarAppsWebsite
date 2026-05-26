@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+:root {
+  --background: #05060a;
+  --foreground: #f5f7fb;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--background);
+  background-image:
+    radial-gradient(circle at top left, rgba(105, 124, 255, 0.14), transparent 24%),
+    radial-gradient(circle at top right, rgba(79, 211, 255, 0.1), transparent 22%),
+    linear-gradient(180deg, #05060a 0%, #080b12 42%, #05060a 100%);
+  color: var(--foreground);
+}
+
+::selection {
+  background: rgba(160, 177, 255, 0.35);
+  color: #ffffff;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mono-copy {
+  font-family: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+.glass-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(20px);
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 3.5rem 3.5rem;
+  mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent 100%);
+}
