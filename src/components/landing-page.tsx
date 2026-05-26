@@ -6,42 +6,14 @@ import { FocusCard } from "@/components/focus-card";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { TypewriterText } from "@/components/typewriter-text";
+import { FlickeringGrid } from "@/components/ui/flickering-grid";
 
 const emailAddress = "apps@lmnrgroup.com";
 const emailHref = `mailto:${emailAddress}`;
 
 const navigationItems = [
-  { href: "#platform", label: "Platform" },
   { href: "#focus", label: "Focus" },
   { href: "#contact", label: "Contact" },
-] as const;
-
-const platformItems = [
-  {
-    title: "Interactive Digital Experiences",
-    description:
-      "Custom interfaces and audience touchpoints designed to make digital content feel clear, engaging, and intuitive.",
-  },
-  {
-    title: "Event and Activation Technology",
-    description:
-      "Flexible software layers for live environments, branded activations, installations, and public-facing moments.",
-  },
-  {
-    title: "Automation Tools",
-    description:
-      "Operational systems that reduce repetitive work, simplify coordination, and help teams move with more clarity.",
-  },
-  {
-    title: "Smart Display and Signage Systems",
-    description:
-      "Display-ready platforms for screens and environments where information, motion, and visuals need to stay current.",
-  },
-  {
-    title: "Custom Web Apps and Workflow Systems",
-    description:
-      "Tailored web software built around real operational needs, internal tools, and evolving digital processes.",
-  },
 ] as const;
 
 const focusItems = [
@@ -88,24 +60,19 @@ export function LandingPage() {
 
   return (
     <div id="top" className="relative min-h-screen overflow-x-clip">
-      <motion.div
-        animate={
-          shouldReduceMotion
-            ? undefined
-            : { scale: [1, 1.08, 1], x: [0, 24, 0], y: [0, -18, 0] }
-        }
-        className="pointer-events-none absolute left-[8%] top-24 -z-10 h-72 w-72 rounded-full bg-amber-300/12 blur-[110px]"
-        transition={{ duration: 18, ease: "easeInOut", repeat: Infinity }}
-      />
-      <motion.div
-        animate={
-          shouldReduceMotion
-            ? undefined
-            : { scale: [1, 0.96, 1], x: [0, -18, 0], y: [0, 20, 0] }
-        }
-        className="pointer-events-none absolute right-[10%] top-[32rem] -z-10 h-80 w-80 rounded-full bg-indigo-300/12 blur-[120px]"
-        transition={{ duration: 20, ease: "easeInOut", repeat: Infinity }}
-      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-20 overflow-hidden"
+      >
+        <FlickeringGrid
+          className="absolute inset-0 size-full [mask-image:radial-gradient(ellipse_at_center,white,transparent_82%)]"
+          color="#94a3b8"
+          flickerChance={shouldReduceMotion ? 0 : 0.06}
+          gridGap={6}
+          maxOpacity={0.18}
+          squareSize={4}
+        />
+      </div>
 
       <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0c0e13]/88 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-4 sm:px-8 lg:px-10">
@@ -141,10 +108,10 @@ export function LandingPage() {
               </p>
               <h1 className="mt-8 text-5xl font-semibold tracking-[-0.07em] text-white sm:text-6xl lg:text-[5.4rem] lg:leading-[0.94]">
                 <TypewriterText
-                  characterDelay={28}
+                  characterDelay={56}
                   className="min-h-[3.9em] sm:min-h-[2.7em] lg:min-h-[2em]"
                   highlightWord="experiences"
-                  startDelay={220}
+                  startDelay={260}
                   text="Digital systems for modern experiences."
                 />
               </h1>
@@ -223,37 +190,7 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section id="platform" className="py-20 sm:py-24">
-          <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
-            <Reveal>
-              <SectionHeading
-                description="Luminar Apps creates digital systems that bridge software, operational flow, and visual experience without adding unnecessary complexity."
-                eyebrow="Platform"
-                title="What Luminar Apps builds."
-              />
-            </Reveal>
-
-            <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {platformItems.map((item, index) => (
-                <Reveal key={item.title} delay={0.05 * index}>
-                  <article className="h-full rounded-[1.5rem] border border-white/7 bg-white/[0.018] p-6 transition-colors duration-300 hover:border-white/12 hover:bg-white/[0.03] sm:p-7">
-                    <p className="mono-copy text-xs uppercase tracking-[0.32em] text-white/40">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h3 className="mt-5 text-xl font-semibold tracking-[-0.03em] text-white">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-base leading-7 text-white/60">
-                      {item.description}
-                    </p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="focus" className="border-t border-white/8 py-20 sm:py-24">
+        <section id="focus" className="py-20 sm:py-24">
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
             <Reveal>
               <SectionHeading
@@ -288,11 +225,13 @@ export function LandingPage() {
                 </p>
                 <p className="relative mt-6 max-w-5xl text-3xl leading-tight tracking-[-0.05em] text-white sm:text-4xl lg:text-[2.9rem] lg:leading-[1.1]">
                   <TypewriterText
-                    characterDelay={12}
+                    characterDelay={24}
                     className="min-h-[6.5em] sm:min-h-[5.2em] lg:min-h-[3.4em]"
-                    startDelay={140}
+                    sessionKey="luminar-apps-mission-typewriter"
+                    startDelay={220}
                     startOnView
                     text="Our mission is to simplify and modernize how people connect with content, audiences, and experiences through intuitive software, immersive visuals, and scalable digital solutions."
+                    triggerOnScrollDown
                     viewportAmount={0.45}
                   />
                 </p>

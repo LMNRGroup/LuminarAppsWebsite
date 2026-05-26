@@ -6,49 +6,125 @@ import { useEffect, useRef, useState } from "react";
 interface TypewriterTextProps {
   characterDelay?: number;
   className?: string;
-  highlightDelay?: number;
   highlightWord?: string;
+  sessionKey?: string;
   startDelay?: number;
   startOnView?: boolean;
   text: string;
+  triggerOnScrollDown?: boolean;
   viewportAmount?: number;
 }
 
 export function TypewriterText({
   characterDelay = 28,
   className,
-  highlightDelay = 160,
   highlightWord,
+  sessionKey,
   startDelay = 0,
   startOnView = false,
   text,
+  triggerOnScrollDown = false,
   viewportAmount = 0.35,
 }: TypewriterTextProps) {
   const containerRef = useRef<HTMLSpanElement | null>(null);
-  const shouldReduceMotion = useReducedMotion();
+  const previousInViewRef = useRef(false);
+  const hasStartedRef = useRef(false);
+  const sessionAppliedRef = useRef(false);
+  const shouldReduceMotion = Boolean(useReducedMotion());
   const inView = useInView(containerRef, {
     amount: viewportAmount,
     once: true,
   });
-  const hasStartedRef = useRef(shouldReduceMotion);
 
   const [visibleLength, setVisibleLength] = useState(
     shouldReduceMotion ? text.length : 0,
   );
-  const [isComplete, setIsComplete] = useState(shouldReduceMotion);
-  const [showHighlight, setShowHighlight] = useState(
-    shouldReduceMotion && Boolean(highlightWord),
+  const [scrollDirection, setScrollDirection] = useState<"down" | "idle" | "up">(
+    "idle",
   );
 
-  const shouldStart = shouldReduceMotion || !startOnView || inView;
+  useEffect(() => {
+    hasStartedRef.current = shouldReduceMotion;
+  }, [shouldReduceMotion]);
 
   useEffect(() => {
-    if (shouldReduceMotion || !shouldStart || hasStartedRef.current) {
+    if (!triggerOnScrollDown) {
       return;
     }
 
+    let previousScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const nextScrollY = window.scrollY;
+
+      setScrollDirection(
+        nextScrollY > previousScrollY
+          ? "down"
+          : nextScrollY < previousScrollY
+            ? "up"
+            : "idle",
+      );
+
+      previousScrollY = nextScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [triggerOnScrollDown]);
+
+  useEffect(() => {
+    if (hasStartedRef.current) {
+      return;
+    }
+
+    if (shouldReduceMotion) {
+      const frameId = window.requestAnimationFrame(() => {
+        hasStartedRef.current = true;
+        setVisibleLength(text.length);
+      });
+
+      return () => {
+        window.cancelAnimationFrame(frameId);
+      };
+    }
+
+    if (sessionKey && !sessionAppliedRef.current) {
+      const hasPlayedThisSession =
+        window.sessionStorage.getItem(sessionKey) === "played";
+
+      if (hasPlayedThisSession) {
+        const frameId = window.requestAnimationFrame(() => {
+          hasStartedRef.current = true;
+          sessionAppliedRef.current = true;
+          setVisibleLength(text.length);
+        });
+
+        return () => {
+          window.cancelAnimationFrame(frameId);
+        };
+      }
+    }
+
+    const justEnteredView = inView && !previousInViewRef.current;
+    previousInViewRef.current = inView;
+
+    if (startOnView && !inView) {
+      return;
+    }
+
+    if (startOnView && triggerOnScrollDown) {
+      const isScrollingDownIntoView =
+        justEnteredView && scrollDirection === "down" && window.scrollY > 0;
+
+      if (!isScrollingDownIntoView) {
+        return;
+      }
+    }
+
     let intervalId: number | undefined;
-    let highlightTimeoutId: number | undefined;
 
     const startTimeoutId = window.setTimeout(() => {
       hasStartedRef.current = true;
@@ -60,12 +136,9 @@ export function TypewriterText({
 
         if (nextLength >= text.length) {
           window.clearInterval(intervalId);
-          setIsComplete(true);
 
-          if (highlightWord) {
-            highlightTimeoutId = window.setTimeout(() => {
-              setShowHighlight(true);
-            }, highlightDelay);
+          if (sessionKey) {
+            window.sessionStorage.setItem(sessionKey, "played");
           }
         }
       }, characterDelay);
@@ -77,26 +150,25 @@ export function TypewriterText({
       if (intervalId) {
         window.clearInterval(intervalId);
       }
-
-      if (highlightTimeoutId) {
-        window.clearTimeout(highlightTimeoutId);
-      }
     };
   }, [
     characterDelay,
-    highlightDelay,
     highlightWord,
-    hasStartedRef,
+    inView,
+    scrollDirection,
+    sessionKey,
     shouldReduceMotion,
-    shouldStart,
     startDelay,
+    startOnView,
     text.length,
+    triggerOnScrollDown,
   ]);
 
   const typedText = shouldReduceMotion ? text : text.slice(0, visibleLength);
+  const hasFinishedTyping = shouldReduceMotion || visibleLength >= text.length;
 
   const renderDisplayedText = () => {
-    if (!isComplete) {
+    if (!hasFinishedTyping) {
       return typedText;
     }
 
@@ -111,22 +183,29 @@ export function TypewriterText({
     }
 
     const before = text.slice(0, matchIndex);
-    const highlightedText = text.slice(matchIndex, matchIndex + highlightWord.length);
+    const highlightedText = text.slice(
+      matchIndex,
+      matchIndex + highlightWord.length,
+    );
     const after = text.slice(matchIndex + highlightWord.length);
 
     return (
       <>
         {before}
-        <span className="relative inline-block pb-[0.08em]">
-          {highlightedText}
-          {showHighlight ? (
-            <motion.span
-              animate={{ opacity: 1, scaleX: 1 }}
-              className="absolute bottom-[0.01em] left-0 h-[0.08em] w-full origin-left rounded-full bg-[linear-gradient(90deg,rgba(255,233,196,0.94),rgba(141,161,255,0.82))] shadow-[0_0_28px_rgba(122,145,255,0.18)]"
-              initial={{ opacity: 0, scaleX: 0 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            />
-          ) : null}
+        <span className="relative inline-block">
+          <span className="text-white/45">{highlightedText}</span>
+          <motion.span
+            animate={{ clipPath: "inset(0 0 0 0)" }}
+            className="gradient-reveal-fill absolute inset-0 block"
+            initial={
+              shouldReduceMotion
+                ? { clipPath: "inset(0 0 0 0)" }
+                : { clipPath: "inset(0 100% 0 0)" }
+            }
+            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            {highlightedText}
+          </motion.span>
         </span>
         {after}
       </>
