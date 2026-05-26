@@ -39,6 +39,8 @@ export function TypewriterText({
   const [visibleLength, setVisibleLength] = useState(
     shouldReduceMotion ? text.length : 0,
   );
+  const [hasCompletedHighlightReveal, setHasCompletedHighlightReveal] =
+    useState(false);
   const [scrollDirection, setScrollDirection] = useState<"down" | "idle" | "up">(
     "idle",
   );
@@ -166,6 +168,8 @@ export function TypewriterText({
 
   const typedText = shouldReduceMotion ? text : text.slice(0, visibleLength);
   const hasFinishedTyping = shouldReduceMotion || visibleLength >= text.length;
+  const highlightRevealComplete =
+    shouldReduceMotion || hasCompletedHighlightReveal;
 
   const renderDisplayedText = () => {
     if (!hasFinishedTyping) {
@@ -189,24 +193,35 @@ export function TypewriterText({
     );
     const after = text.slice(matchIndex + highlightWord.length);
 
+    const gradientWord = (
+      <span className="gradient-reveal-fill inline-block">{highlightedText}</span>
+    );
+
     return (
       <>
         {before}
-        <span className="relative inline-block">
-          <span className="text-white/45">{highlightedText}</span>
-          <motion.span
-            animate={{ clipPath: "inset(0 0 0 0)" }}
-            className="gradient-reveal-fill absolute inset-0 block"
-            initial={
-              shouldReduceMotion
-                ? { clipPath: "inset(0 0 0 0)" }
-                : { clipPath: "inset(0 100% 0 0)" }
-            }
-            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            {highlightedText}
-          </motion.span>
-        </span>
+        {highlightRevealComplete ? (
+          gradientWord
+        ) : (
+          <span className="relative inline-block">
+            <span className="text-white/45">{highlightedText}</span>
+            <motion.span
+              animate={{ clipPath: "inset(0 0 0 0)" }}
+              className="gradient-reveal-fill absolute inset-0 block"
+              initial={
+                shouldReduceMotion
+                  ? { clipPath: "inset(0 0 0 0)" }
+                  : { clipPath: "inset(0 100% 0 0)" }
+              }
+              onAnimationComplete={() => {
+                setHasCompletedHighlightReveal(true);
+              }}
+              transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              {highlightedText}
+            </motion.span>
+          </span>
+        )}
         {after}
       </>
     );

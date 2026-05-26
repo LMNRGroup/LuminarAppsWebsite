@@ -6,7 +6,7 @@ import { FocusCard } from "@/components/focus-card";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { TypewriterText } from "@/components/typewriter-text";
-import { FlickeringGrid } from "@/components/ui/flickering-grid";
+import { InteractiveGridPattern } from "@/components/ui/interactive-grid-pattern";
 
 const emailAddress = "apps@lmnrgroup.com";
 const emailHref = `mailto:${emailAddress}`;
@@ -69,13 +69,11 @@ export function LandingPage() {
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
       >
-        <FlickeringGrid
-          className="absolute inset-0 size-full opacity-100"
-          color="#60A5FA"
-          flickerChance={shouldReduceMotion ? 0 : 0.28}
-          gridGap={5}
-          maxOpacity={1}
-          squareSize={5}
+        <InteractiveGridPattern
+          className="absolute inset-0 size-full opacity-70 [mask-image:radial-gradient(58%_52%_at_50%_34%,white,rgba(255,255,255,0.72),transparent)]"
+          height={22}
+          radius={shouldReduceMotion ? 0 : 5}
+          width={22}
         />
       </div>
 
@@ -126,7 +124,7 @@ export function LandingPage() {
               </p>
               <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                 <a
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#f3efe8] px-6 py-3 text-sm font-medium text-[#22262d] transition duration-300 hover:bg-white"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#f6e0a1]/45 bg-[linear-gradient(135deg,#f8e6b6_0%,#e7c978_48%,#c69431_100%)] px-6 py-3 text-sm font-semibold text-[#181b21] shadow-[0_18px_48px_rgba(198,148,49,0.24)] transition duration-300 hover:scale-[1.01] hover:brightness-105"
                   href={emailHref}
                 >
                   Start an Inquiry
