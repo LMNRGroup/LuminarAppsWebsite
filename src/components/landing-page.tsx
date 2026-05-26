@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
+import { BrandLogo } from "@/components/brand-logo";
 import { FocusCard } from "@/components/focus-card";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
-import brandLogo from "../../Luminar Apps Brand Logo.png";
+import { TypewriterText } from "@/components/typewriter-text";
 
 const emailAddress = "apps@lmnrgroup.com";
 const emailHref = `mailto:${emailAddress}`;
@@ -94,7 +94,7 @@ export function LandingPage() {
             ? undefined
             : { scale: [1, 1.08, 1], x: [0, 24, 0], y: [0, -18, 0] }
         }
-        className="pointer-events-none absolute left-[8%] top-24 -z-10 h-72 w-72 rounded-full bg-amber-300/15 blur-[110px]"
+        className="pointer-events-none absolute left-[8%] top-24 -z-10 h-72 w-72 rounded-full bg-amber-300/12 blur-[110px]"
         transition={{ duration: 18, ease: "easeInOut", repeat: Infinity }}
       />
       <motion.div
@@ -103,22 +103,17 @@ export function LandingPage() {
             ? undefined
             : { scale: [1, 0.96, 1], x: [0, -18, 0], y: [0, 20, 0] }
         }
-        className="pointer-events-none absolute right-[10%] top-[32rem] -z-10 h-80 w-80 rounded-full bg-indigo-300/14 blur-[120px]"
+        className="pointer-events-none absolute right-[10%] top-[32rem] -z-10 h-80 w-80 rounded-full bg-indigo-300/12 blur-[120px]"
         transition={{ duration: 20, ease: "easeInOut", repeat: Infinity }}
       />
 
-      <header className="sticky top-0 z-50 border-b border-white/8 bg-[#2b3037]/72 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0c0e13]/88 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-4 sm:px-8 lg:px-10">
           <a
-            className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/[0.94] px-3 py-2 shadow-[0_14px_42px_rgba(15,19,26,0.18)] transition duration-300 hover:bg-white"
+            className="inline-flex shrink-0 items-center rounded-md opacity-95 transition-opacity duration-300 hover:opacity-100"
             href="#top"
           >
-            <Image
-              alt="Luminar Apps logo"
-              className="h-auto w-[8.4rem] sm:w-[10.5rem]"
-              priority
-              src={brandLogo}
-            />
+            <BrandLogo priority variant="header" />
           </a>
           <nav
             aria-label="Primary"
@@ -141,11 +136,17 @@ export function LandingPage() {
         <section className="border-b border-white/8">
           <div className="mx-auto grid w-full max-w-7xl gap-16 px-6 py-20 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-20 lg:px-10 lg:py-32">
             <Reveal className="max-w-3xl">
-              <p className="mono-copy inline-flex rounded-full border border-white/12 bg-white/[0.05] px-4 py-2 text-[0.72rem] uppercase tracking-[0.32em] text-white/62">
+              <p className="mono-copy inline-flex rounded-full border border-white/9 bg-white/[0.028] px-4 py-2 text-[0.72rem] uppercase tracking-[0.32em] text-white/62">
                 Interactive Apps • Event Technology • Automation Systems
               </p>
               <h1 className="mt-8 text-5xl font-semibold tracking-[-0.07em] text-white sm:text-6xl lg:text-[5.4rem] lg:leading-[0.94]">
-                Digital systems for modern experiences.
+                <TypewriterText
+                  characterDelay={28}
+                  className="min-h-[3.9em] sm:min-h-[2.7em] lg:min-h-[2em]"
+                  highlightWord="experiences"
+                  startDelay={220}
+                  text="Digital systems for modern experiences."
+                />
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-white/64 sm:text-lg">
                 Luminar Apps builds interactive software, automation tools, and
@@ -168,7 +169,7 @@ export function LandingPage() {
             <Reveal className="lg:justify-self-end" delay={0.12}>
               <motion.div
                 animate={shouldReduceMotion ? undefined : { y: [0, -10, 0] }}
-                className="glass-panel relative mx-auto w-full max-w-lg overflow-hidden rounded-[2rem] border border-white/10 p-6 shadow-[0_40px_140px_rgba(0,0,0,0.26)] sm:p-8"
+                className="glass-panel relative mx-auto w-full max-w-lg overflow-hidden rounded-[2rem] border border-white/7 p-6 shadow-[0_40px_140px_rgba(0,0,0,0.46)] sm:p-8"
                 transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
               >
                 <div className="hero-grid absolute inset-0 opacity-20" />
@@ -176,13 +177,7 @@ export function LandingPage() {
 
                 <div className="relative flex flex-col gap-8">
                   <div className="flex items-start justify-between gap-4 text-[0.68rem] uppercase tracking-[0.32em] text-white/40">
-                    <div className="rounded-[1.25rem] border border-white/10 bg-white/[0.92] px-4 py-3 shadow-[0_12px_36px_rgba(15,19,26,0.15)]">
-                      <Image
-                        alt="Luminar Apps logo"
-                        className="h-auto w-[9.25rem] sm:w-[10.75rem]"
-                        src={brandLogo}
-                      />
-                    </div>
+                    <BrandLogo variant="panel" />
                     <span className="mono-copy">01</span>
                   </div>
 
@@ -194,7 +189,7 @@ export function LandingPage() {
                       {audienceAreas.map((item) => (
                         <span
                           key={item}
-                          className="rounded-full border border-white/12 bg-[#20242b]/50 px-3 py-2 text-sm text-white/72"
+                          className="rounded-full border border-white/8 bg-[#090b10]/72 px-3 py-2 text-sm text-white/72"
                         >
                           {item}
                         </span>
@@ -206,7 +201,7 @@ export function LandingPage() {
                     {heroHighlights.map((item) => (
                       <div
                         key={item.title}
-                        className="rounded-[1.35rem] border border-white/10 bg-[#20242b]/60 p-5"
+                        className="rounded-[1.35rem] border border-white/7 bg-[#080a0f]/74 p-5"
                       >
                         <h2 className="text-lg font-semibold tracking-[-0.03em] text-white">
                           {item.title}
@@ -218,7 +213,7 @@ export function LandingPage() {
                     ))}
                   </div>
 
-                  <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.05] p-4 text-sm leading-6 text-white/58">
+                  <div className="rounded-[1.35rem] border border-white/7 bg-white/[0.018] p-4 text-sm leading-6 text-white/58">
                     Modular by design for activations, environments, and
                     evolving operational systems.
                   </div>
@@ -241,7 +236,7 @@ export function LandingPage() {
             <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {platformItems.map((item, index) => (
                 <Reveal key={item.title} delay={0.05 * index}>
-                  <article className="h-full rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-6 transition-colors duration-300 hover:border-white/18 hover:bg-white/[0.065] sm:p-7">
+                  <article className="h-full rounded-[1.5rem] border border-white/7 bg-white/[0.018] p-6 transition-colors duration-300 hover:border-white/12 hover:bg-white/[0.03] sm:p-7">
                     <p className="mono-copy text-xs uppercase tracking-[0.32em] text-white/40">
                       {String(index + 1).padStart(2, "0")}
                     </p>
@@ -283,18 +278,23 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section className="py-20 sm:py-24">
+        <section id="mission" className="py-20 sm:py-24">
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
             <Reveal>
-              <div className="glass-panel relative overflow-hidden rounded-[2rem] border border-white/10 p-8 shadow-[0_32px_120px_rgba(0,0,0,0.28)] sm:p-10 lg:p-14">
+              <div className="glass-panel relative overflow-hidden rounded-[2rem] border border-white/7 p-8 shadow-[0_32px_120px_rgba(0,0,0,0.44)] sm:p-10 lg:p-14">
                 <div className="pointer-events-none absolute inset-x-1/4 top-0 h-40 rounded-full bg-amber-300/12 blur-3xl" />
                 <p className="mono-copy relative text-xs uppercase tracking-[0.32em] text-white/45">
                   Mission
                 </p>
                 <p className="relative mt-6 max-w-5xl text-3xl leading-tight tracking-[-0.05em] text-white sm:text-4xl lg:text-[2.9rem] lg:leading-[1.1]">
-                  Our mission is to simplify and modernize how people connect
-                  with content, audiences, and experiences through intuitive
-                  software, immersive visuals, and scalable digital solutions.
+                  <TypewriterText
+                    characterDelay={12}
+                    className="min-h-[6.5em] sm:min-h-[5.2em] lg:min-h-[3.4em]"
+                    startDelay={140}
+                    startOnView
+                    text="Our mission is to simplify and modernize how people connect with content, audiences, and experiences through intuitive software, immersive visuals, and scalable digital solutions."
+                    viewportAmount={0.45}
+                  />
                 </p>
               </div>
             </Reveal>
@@ -304,7 +304,7 @@ export function LandingPage() {
         <section id="contact" className="border-t border-white/8 py-20 sm:py-24">
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
             <Reveal>
-              <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-8 sm:p-10 lg:flex lg:items-end lg:justify-between lg:gap-10">
+              <div className="rounded-[2rem] border border-white/7 bg-white/[0.018] p-8 sm:p-10 lg:flex lg:items-end lg:justify-between lg:gap-10">
                 <div className="max-w-3xl">
                   <p className="mono-copy text-xs uppercase tracking-[0.32em] text-white/45">
                     Contact
@@ -340,13 +340,7 @@ export function LandingPage() {
       <footer className="border-t border-white/8">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-6 py-8 text-sm text-white/48 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <div className="flex flex-col gap-4">
-            <div className="inline-flex w-fit rounded-[1.25rem] border border-white/10 bg-white/[0.92] px-4 py-3 shadow-[0_12px_36px_rgba(15,19,26,0.15)]">
-              <Image
-                alt="Luminar Apps logo"
-                className="h-auto w-[8.8rem] sm:w-[10.5rem]"
-                src={brandLogo}
-              />
-            </div>
+            <BrandLogo variant="footer" />
             <div>
               <p className="font-medium text-white/78">Luminar Apps</p>
               <p className="mt-1">Technology, design, and digital systems.</p>
