@@ -106,8 +106,9 @@ export function LandingPage() {
         <section className="border-b border-white/8">
           <div className="mx-auto grid w-full max-w-7xl gap-16 px-6 py-20 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-20 lg:px-10 lg:py-32">
             <Reveal className="max-w-3xl">
-              <p className="mono-copy inline-flex rounded-full border border-white/9 bg-white/[0.028] px-4 py-2 text-[0.72rem] uppercase tracking-[0.32em] text-white/62">
-                Interactive Apps • Event Technology • Automation Systems
+              <p className="mono-copy max-w-[20rem] text-center text-[0.7rem] uppercase tracking-[0.24em] text-white/62 sm:max-w-none sm:text-left sm:text-[0.72rem] sm:tracking-[0.3em]">
+                Interactive Apps • Event Technology
+                <br className="sm:hidden" /> • Automation Systems
               </p>
               <h1 className="mt-8 text-5xl font-semibold tracking-[-0.07em] text-white sm:text-6xl lg:text-[5.4rem] lg:leading-[0.94]">
                 <TypewriterText
