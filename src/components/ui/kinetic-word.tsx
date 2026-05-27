@@ -25,8 +25,8 @@ export function KineticWord({ className, text }: KineticWordProps) {
     void controls.start((index) => ({
       filter: [
         "drop-shadow(0 0 0 rgba(244,210,122,0))",
-        "drop-shadow(0 0 11px rgba(244,210,122,0.26))",
-        "drop-shadow(0 0 9px rgba(139,92,246,0.22))",
+        "drop-shadow(0 0 10px rgba(244,210,122,0.28))",
+        "drop-shadow(0 0 8px rgba(139,92,246,0.22))",
         "drop-shadow(0 0 0 rgba(244,210,122,0))",
       ],
       fontVariationSettings: [
@@ -74,14 +74,14 @@ export function KineticWord({ className, text }: KineticWordProps) {
   return (
     <span
       ref={ref}
-      className={cn("gradient-reveal-fill inline-block whitespace-pre", className)}
+      className={cn("inline-block whitespace-pre", className)}
       onMouseEnter={triggerHover}
     >
       {characters.map((character, index) => (
         <motion.span
           key={`${character}-${index}`}
           animate={controls}
-          className="inline-block"
+          className="gradient-reveal-fill inline-block"
           custom={index}
           initial={
             shouldReduceMotion
