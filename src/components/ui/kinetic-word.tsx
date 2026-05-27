@@ -23,11 +23,10 @@ export function KineticWord({ className, text }: KineticWordProps) {
     }
 
     void controls.start((index) => ({
-      color: ["#f5f7fb", "#f4d27a", "#8b5cf6", "#f5f7fb"],
       filter: [
         "drop-shadow(0 0 0 rgba(244,210,122,0))",
-        "drop-shadow(0 0 10px rgba(244,210,122,0.28))",
-        "drop-shadow(0 0 8px rgba(139,92,246,0.22))",
+        "drop-shadow(0 0 11px rgba(244,210,122,0.26))",
+        "drop-shadow(0 0 9px rgba(139,92,246,0.22))",
         "drop-shadow(0 0 0 rgba(244,210,122,0))",
       ],
       fontVariationSettings: [
@@ -51,7 +50,6 @@ export function KineticWord({ className, text }: KineticWordProps) {
     }
 
     void controls.start((index) => ({
-      color: ["#f5f7fb", "#f4d27a", "#8b5cf6", "#f5f7fb"],
       filter: [
         "drop-shadow(0 0 0 rgba(244,210,122,0))",
         "drop-shadow(0 0 12px rgba(244,210,122,0.28))",
@@ -76,7 +74,7 @@ export function KineticWord({ className, text }: KineticWordProps) {
   return (
     <span
       ref={ref}
-      className={cn("inline-block whitespace-pre", className)}
+      className={cn("gradient-reveal-fill inline-block whitespace-pre", className)}
       onMouseEnter={triggerHover}
     >
       {characters.map((character, index) => (
@@ -88,7 +86,11 @@ export function KineticWord({ className, text }: KineticWordProps) {
           initial={
             shouldReduceMotion
               ? undefined
-              : { color: "#f5f7fb", fontVariationSettings: '"wght" 580', y: 0 }
+              : {
+                  filter: "drop-shadow(0 0 0 rgba(244,210,122,0))",
+                  fontVariationSettings: '"wght" 580',
+                  y: 0,
+                }
           }
         >
           {character}

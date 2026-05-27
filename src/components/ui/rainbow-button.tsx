@@ -22,14 +22,15 @@ type RainbowButtonProps =
 export function RainbowButton(props: RainbowButtonProps) {
   const { children, className } = props;
   const sharedClassName = cn(
-    "group relative inline-flex min-h-12 items-center justify-center overflow-hidden rounded-full p-[1px] text-sm font-semibold text-[#f7f2e8] transition-transform duration-300 hover:scale-[1.01]",
+    "rainbow-button group relative inline-flex min-h-12 items-center justify-center overflow-hidden rounded-full px-[1px] py-[1px] text-sm font-semibold text-[#f7f2e8] transition-transform duration-300 hover:scale-[1.01]",
     className,
   );
   const content = (
     <>
-      <span className="absolute inset-0 rounded-full bg-[linear-gradient(115deg,#8b5cf6_8%,#b57abf_28%,#f4d27a_58%,#9a86ff_88%)] opacity-95 transition duration-300 group-hover:scale-[1.03]" />
-      <span className="absolute inset-[1px] rounded-full bg-[linear-gradient(180deg,#15181f_0%,#0d1015_100%)]" />
-      <span className="absolute inset-x-8 top-0 h-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.28),transparent_72%)] opacity-80" />
+      <span className="rainbow-button-glow absolute inset-[-24%] rounded-full opacity-70 blur-xl transition duration-300 group-hover:opacity-100" />
+      <span className="rainbow-button-border absolute inset-0 rounded-full" />
+      <span className="absolute inset-[1px] rounded-full bg-[linear-gradient(180deg,rgba(17,20,27,0.96)_0%,rgba(10,12,17,0.98)_100%)]" />
+      <span className="absolute inset-x-10 top-[1px] h-[44%] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.24),transparent_68%)] opacity-80" />
       <span className="relative z-10 px-6 py-3 tracking-[0.02em]">{children}</span>
     </>
   );
