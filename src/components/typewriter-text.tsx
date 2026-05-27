@@ -7,6 +7,7 @@ interface TypewriterTextProps {
   characterDelay?: number;
   className?: string;
   highlightWord?: string;
+  highlightWords?: string[];
   sessionKey?: string;
   startDelay?: number;
   startOnView?: boolean;
@@ -19,6 +20,7 @@ export function TypewriterText({
   characterDelay = 28,
   className,
   highlightWord,
+  highlightWords,
   sessionKey,
   startDelay = 0,
   startOnView = false,
@@ -100,6 +102,7 @@ export function TypewriterText({
       if (hasPlayedThisSession) {
         const frameId = window.requestAnimationFrame(() => {
           hasStartedRef.current = true;
+          setHasCompletedHighlightReveal(true);
           sessionAppliedRef.current = true;
           setVisibleLength(text.length);
         });
@@ -170,33 +173,59 @@ export function TypewriterText({
   const hasFinishedTyping = shouldReduceMotion || visibleLength >= text.length;
   const highlightRevealComplete =
     shouldReduceMotion || hasCompletedHighlightReveal;
+  const activeHighlightWords = (
+    highlightWords && highlightWords.length > 0 ? highlightWords : highlightWord ? [highlightWord] : []
+  ).filter(Boolean);
 
   const renderDisplayedText = () => {
     if (!hasFinishedTyping) {
       return typedText;
     }
 
-    if (!highlightWord) {
+    if (activeHighlightWords.length === 0) {
       return text;
     }
 
-    const matchIndex = text.toLowerCase().indexOf(highlightWord.toLowerCase());
+    const lowerText = text.toLowerCase();
+    const matches = activeHighlightWords
+      .map((word) => {
+        const start = lowerText.indexOf(word.toLowerCase());
 
-    if (matchIndex === -1) {
+        return start === -1
+          ? null
+          : {
+              end: start + word.length,
+              start,
+            };
+      })
+      .filter(
+        (match): match is { end: number; start: number } => match !== null,
+      )
+      .sort((a, b) => a.start - b.start);
+
+    if (matches.length === 0) {
       return text;
     }
 
-    const before = text.slice(0, matchIndex);
-    const highlightedText = text.slice(
-      matchIndex,
-      matchIndex + highlightWord.length,
-    );
-    const after = text.slice(matchIndex + highlightWord.length);
+    const segments: React.ReactNode[] = [];
+    let cursor = 0;
 
-    return (
-      <>
-        {before}
-        <span className="relative inline-block align-baseline">
+    matches.forEach((match) => {
+      if (match.start < cursor) {
+        return;
+      }
+
+      if (cursor < match.start) {
+        segments.push(text.slice(cursor, match.start));
+      }
+
+      const highlightedText = text.slice(match.start, match.end);
+
+      segments.push(
+        <span
+          key={`${match.start}-${match.end}`}
+          className="relative inline-block align-baseline"
+        >
           <span
             className={highlightRevealComplete ? "text-transparent" : "text-white/45"}
           >
@@ -217,10 +246,17 @@ export function TypewriterText({
           >
             {highlightedText}
           </motion.span>
-        </span>
-        {after}
-      </>
-    );
+        </span>,
+      );
+
+      cursor = match.end;
+    });
+
+    if (cursor < text.length) {
+      segments.push(text.slice(cursor));
+    }
+
+    return <>{segments}</>;
   };
 
   return (
