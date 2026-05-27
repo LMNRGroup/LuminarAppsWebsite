@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { BrandIconSvg } from "@/components/brand-icon-svg";
+import { motion, useReducedMotion } from "framer-motion";
 import { BrandLogo } from "@/components/brand-logo";
 import { FocusCard } from "@/components/focus-card";
 import { Reveal } from "@/components/reveal";
@@ -64,10 +63,6 @@ const audienceAreas = [
 export function LandingPage() {
   const shouldReduceMotion = useReducedMotion();
   const year = new Date().getFullYear();
-  const { scrollY } = useScroll();
-  const iconY = useTransform(scrollY, [0, 900], [0, 120]);
-  const iconScale = useTransform(scrollY, [0, 900], [1, 0.78]);
-  const iconOpacity = useTransform(scrollY, [0, 500, 1000], [0.16, 0.12, 0.04]);
 
   return (
     <div id="top" className="relative isolate min-h-screen overflow-x-clip">
@@ -81,19 +76,6 @@ export function LandingPage() {
           radius={shouldReduceMotion ? 0 : 5}
           width={22}
         />
-        <motion.div
-          aria-hidden="true"
-          className="absolute right-[-4.5rem] top-[7.5rem] hidden lg:block"
-          style={
-            shouldReduceMotion
-              ? undefined
-              : { opacity: iconOpacity, scale: iconScale, y: iconY }
-          }
-        >
-          <div className="rounded-full bg-[radial-gradient(circle_at_center,rgba(18,20,28,0.12),transparent_72%)] p-10">
-            <BrandIconSvg size={300} />
-          </div>
-        </motion.div>
       </div>
 
       <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0c0e13]/88 backdrop-blur-xl">
@@ -122,7 +104,7 @@ export function LandingPage() {
       </header>
 
       <main className="relative z-10">
-        <section className="snap-section border-b border-white/8">
+        <section className="border-b border-white/8">
           <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 py-10 sm:gap-16 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-20 lg:px-10 lg:py-32">
             <Reveal className="max-w-3xl">
               <p className="mono-copy mx-auto max-w-[17.5rem] text-center text-[0.57rem] uppercase leading-[1.7] tracking-[0.14em] text-white/62 sm:mx-0 sm:max-w-none sm:text-left sm:text-[0.72rem] sm:leading-normal sm:tracking-[0.3em]">
@@ -214,7 +196,7 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section id="focus" className="snap-section py-20 sm:py-24">
+        <section id="focus" className="py-20 sm:py-24">
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
             <Reveal>
               <SectionHeading
@@ -242,34 +224,33 @@ export function LandingPage() {
         <section id="mission" className="snap-section py-20 sm:py-24">
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
             <Reveal>
-              <div className="glass-panel relative overflow-hidden rounded-[2rem] border border-white/7 p-8 shadow-[0_32px_120px_rgba(0,0,0,0.44)] sm:p-10 lg:p-14">
+              <div className="glass-panel relative overflow-hidden rounded-[2rem] border border-white/7 px-8 py-10 shadow-[0_32px_120px_rgba(0,0,0,0.44)] sm:px-10 sm:py-12 lg:px-14 lg:py-16">
                 <div className="pointer-events-none absolute inset-x-1/4 top-0 h-40 rounded-full bg-amber-300/12 blur-3xl" />
-                <p className="mono-copy relative text-xs uppercase tracking-[0.32em] text-white/45">
-                  Mission
-                </p>
-                <p className="relative mt-6 max-w-5xl text-3xl leading-tight tracking-[-0.05em] text-white sm:text-4xl lg:text-[2.9rem] lg:leading-[1.1]">
-                  <TypewriterText
-                    characterDelay={24}
-                    className="min-h-[6.5em] sm:min-h-[5.2em] lg:min-h-[3.4em]"
-                    highlightWords={["intuitive", "immersive", "scalable"]}
-                    highlightVariant="kinetic"
-                    sessionKey="luminar-apps-mission-typewriter"
-                    startDelay={220}
-                    startOnView
-                    text="Our mission is to simplify and modernize how people connect with content, audiences, and experiences through intuitive software, immersive visuals, and scalable digital solutions."
-                    triggerOnScrollDown
-                    viewportAmount={0.45}
-                  />
-                </p>
+                <div className="relative mx-auto flex min-h-[20rem] max-w-5xl flex-col justify-center lg:min-h-[22rem]">
+                  <p className="mono-copy text-center text-xs uppercase tracking-[0.32em] text-white/45 lg:text-left">
+                    Mission
+                  </p>
+                  <p className="mt-6 text-center text-3xl leading-tight tracking-[-0.05em] text-white sm:text-4xl lg:text-left lg:text-[2.9rem] lg:leading-[1.1]">
+                    <TypewriterText
+                      characterDelay={24}
+                      className="min-h-[7.2em] sm:min-h-[5.8em] lg:min-h-[3.7em]"
+                      highlightWords={["intuitive", "immersive", "scalable"]}
+                      highlightVariant="kinetic"
+                      sessionKey="luminar-apps-mission-typewriter"
+                      startDelay={220}
+                      startOnView
+                      text="Our mission is to simplify and modernize how people connect with content, audiences, and experiences through intuitive software, immersive visuals, and scalable digital solutions."
+                      triggerOnScrollDown
+                      viewportAmount={0.45}
+                    />
+                  </p>
+                </div>
               </div>
             </Reveal>
           </div>
         </section>
 
-        <section
-          id="contact"
-          className="snap-section border-t border-white/8 py-20 sm:py-24"
-        >
+        <section id="contact" className="border-t border-white/8 py-20 sm:py-24">
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
             <Reveal>
               <div className="rounded-[2rem] border border-white/7 bg-white/[0.018] p-8 sm:p-10 lg:flex lg:items-end lg:justify-between lg:gap-10">
