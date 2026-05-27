@@ -74,14 +74,14 @@ export function KineticWord({ className, text }: KineticWordProps) {
   return (
     <span
       ref={ref}
-      className={cn("gradient-reveal-fill inline-block whitespace-pre", className)}
+      className={cn("inline-block whitespace-pre", className)}
       onMouseEnter={triggerHover}
     >
       {characters.map((character, index) => (
         <motion.span
           key={`${character}-${index}`}
           animate={controls}
-          className="inline-block"
+          className="gradient-reveal-fill inline-block"
           custom={index}
           initial={
             shouldReduceMotion
