@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { CSSProperties } from "react";
-import { BrandIconSvg } from "@/components/brand-icon-svg";
 import { BrandLogo } from "@/components/brand-logo";
 import { FocusCard } from "@/components/focus-card";
 import { Reveal } from "@/components/reveal";
@@ -74,10 +73,6 @@ const rainbowButtonStyle = {
 export function LandingPage() {
   const shouldReduceMotion = useReducedMotion();
   const year = new Date().getFullYear();
-  const { scrollY } = useScroll();
-  const iconY = useTransform(scrollY, [0, 900], [0, 120]);
-  const iconScale = useTransform(scrollY, [0, 900], [1, 0.78]);
-  const iconOpacity = useTransform(scrollY, [0, 500, 1000], [0.16, 0.12, 0.04]);
 
   return (
     <div id="top" className="relative isolate min-h-screen overflow-x-clip">
@@ -91,19 +86,6 @@ export function LandingPage() {
           radius={shouldReduceMotion ? 0 : 5}
           width={22}
         />
-        <motion.div
-          aria-hidden="true"
-          className="absolute right-[-4.5rem] top-[7.5rem] hidden lg:block"
-          style={
-            shouldReduceMotion
-              ? undefined
-              : { opacity: iconOpacity, scale: iconScale, y: iconY }
-          }
-        >
-          <div className="rounded-full bg-[radial-gradient(circle_at_center,rgba(18,20,28,0.12),transparent_72%)] p-10">
-            <BrandIconSvg size={300} />
-          </div>
-        </motion.div>
       </div>
 
       <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0c0e13]/88 backdrop-blur-xl">
@@ -266,10 +248,9 @@ export function LandingPage() {
                   <p className="mt-6 w-full text-3xl leading-tight tracking-[-0.05em] text-white sm:text-4xl lg:text-[2.9rem] lg:leading-[1.1]">
                     <TypewriterText
                       characterDelay={24}
-                      className="min-h-[7em] sm:min-h-[5.8em] lg:min-h-[3.8em]"
+                    className="min-h-[7em] sm:min-h-[5.8em] lg:min-h-[3.8em]"
                       highlightWords={["intuitive", "immersive", "scalable"]}
                       highlightVariant="kinetic"
-                      sessionKey="luminar-apps-mission-typewriter"
                       startDelay={220}
                       startOnView
                       text="Our mission is to simplify and modernize how people connect with content, audiences, and experiences through intuitive software, immersive visuals, and scalable digital solutions."
