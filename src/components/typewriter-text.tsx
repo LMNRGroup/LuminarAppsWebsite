@@ -1,13 +1,17 @@
 "use client";
 
 import { motion, useInView, useReducedMotion } from "framer-motion";
+import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+
+import { KineticWord } from "@/components/ui/kinetic-word";
 
 interface TypewriterTextProps {
   characterDelay?: number;
   className?: string;
   highlightWord?: string;
   highlightWords?: string[];
+  highlightVariant?: "gradient" | "kinetic";
   sessionKey?: string;
   startDelay?: number;
   startOnView?: boolean;
@@ -21,6 +25,7 @@ export function TypewriterText({
   className,
   highlightWord,
   highlightWords,
+  highlightVariant = "gradient",
   sessionKey,
   startDelay = 0,
   startOnView = false,
@@ -207,7 +212,7 @@ export function TypewriterText({
       return text;
     }
 
-    const segments: React.ReactNode[] = [];
+    const segments: ReactNode[] = [];
     let cursor = 0;
 
     matches.forEach((match) => {
@@ -221,33 +226,43 @@ export function TypewriterText({
 
       const highlightedText = text.slice(match.start, match.end);
 
-      segments.push(
-        <span
-          key={`${match.start}-${match.end}`}
-          className="relative inline-block align-baseline"
-        >
+      if (highlightVariant === "kinetic") {
+        segments.push(
+          <KineticWord
+            key={`${match.start}-${match.end}`}
+            className="align-baseline"
+            text={highlightedText}
+          />,
+        );
+      } else {
+        segments.push(
           <span
-            className={highlightRevealComplete ? "text-transparent" : "text-white/45"}
+            key={`${match.start}-${match.end}`}
+            className="relative inline-block align-baseline"
           >
-            {highlightedText}
-          </span>
-          <motion.span
-            animate={{ clipPath: "inset(0 0 0 0)" }}
-            className="gradient-reveal-fill absolute inset-0 block whitespace-pre"
-            initial={
-              shouldReduceMotion
-                ? { clipPath: "inset(0 0 0 0)" }
-                : { clipPath: "inset(0 100% 0 0)" }
-            }
-            onAnimationComplete={() => {
-              setHasCompletedHighlightReveal(true);
-            }}
-            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            {highlightedText}
-          </motion.span>
-        </span>,
-      );
+            <span
+              className={highlightRevealComplete ? "text-transparent" : "text-white/45"}
+            >
+              {highlightedText}
+            </span>
+            <motion.span
+              animate={{ clipPath: "inset(0 0 0 0)" }}
+              className="gradient-reveal-fill absolute inset-0 block whitespace-pre"
+              initial={
+                shouldReduceMotion
+                  ? { clipPath: "inset(0 0 0 0)" }
+                  : { clipPath: "inset(0 100% 0 0)" }
+              }
+              onAnimationComplete={() => {
+                setHasCompletedHighlightReveal(true);
+              }}
+              transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              {highlightedText}
+            </motion.span>
+          </span>,
+        );
+      }
 
       cursor = match.end;
     });

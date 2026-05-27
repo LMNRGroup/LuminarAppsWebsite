@@ -7,6 +7,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { TypewriterText } from "@/components/typewriter-text";
 import { InteractiveGridPattern } from "@/components/ui/interactive-grid-pattern";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 
 const emailAddress = "apps@lmnrgroup.com";
 const emailHref = `mailto:${emailAddress}`;
@@ -104,14 +105,14 @@ export function LandingPage() {
 
       <main className="relative z-10">
         <section className="border-b border-white/8">
-          <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 py-14 sm:gap-16 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-20 lg:px-10 lg:py-32">
+          <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 py-10 sm:gap-16 sm:px-8 sm:py-24 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-20 lg:px-10 lg:py-32">
             <Reveal className="max-w-3xl">
-              <p className="mono-copy mx-auto max-w-[18rem] text-center text-[0.62rem] uppercase leading-[1.65] tracking-[0.18em] text-white/62 sm:mx-0 sm:max-w-none sm:text-left sm:text-[0.72rem] sm:leading-normal sm:tracking-[0.3em]">
+              <p className="mono-copy mx-auto max-w-[17.5rem] text-center text-[0.57rem] uppercase leading-[1.7] tracking-[0.14em] text-white/62 sm:mx-0 sm:max-w-none sm:text-left sm:text-[0.72rem] sm:leading-normal sm:tracking-[0.3em]">
                 <span className="whitespace-nowrap">
                   Interactive Apps • Event Technology
                 </span>
-                <span className="hidden sm:inline"> • </span>
                 <br className="sm:hidden" />
+                <span className="hidden sm:inline"> • </span>
                 <span className="whitespace-nowrap">Automation Systems</span>
               </p>
               <h1 className="mt-8 text-5xl font-semibold tracking-[-0.07em] text-white sm:text-6xl lg:text-[5.4rem] lg:leading-[0.94]">
@@ -128,12 +129,9 @@ export function LandingPage() {
                 smart visual systems for brands, businesses, and public spaces.
               </p>
               <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                <a
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#f6e0a1]/45 bg-[linear-gradient(135deg,#f8e6b6_0%,#e7c978_48%,#c69431_100%)] px-6 py-3 text-sm font-semibold text-[#181b21] shadow-[0_18px_48px_rgba(198,148,49,0.24)] transition duration-300 hover:scale-[1.01] hover:brightness-105"
-                  href={emailHref}
-                >
+                <RainbowButton href={emailHref}>
                   Start an Inquiry
-                </a>
+                </RainbowButton>
                 <p className="max-w-sm text-sm leading-6 text-white/50">
                   Temporary site for platform direction, capability focus, and
                   direct inquiries.
@@ -236,6 +234,7 @@ export function LandingPage() {
                     characterDelay={24}
                     className="min-h-[6.5em] sm:min-h-[5.2em] lg:min-h-[3.4em]"
                     highlightWords={["intuitive", "immersive", "scalable"]}
+                    highlightVariant="kinetic"
                     sessionKey="luminar-apps-mission-typewriter"
                     startDelay={220}
                     startOnView
