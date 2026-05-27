@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import type { CSSProperties } from "react";
 import { BrandIconSvg } from "@/components/brand-icon-svg";
 import { BrandLogo } from "@/components/brand-logo";
 import { FocusCard } from "@/components/focus-card";
@@ -60,6 +61,15 @@ const audienceAreas = [
   "Brands",
   "Public Spaces",
 ] as const;
+
+const rainbowButtonStyle = {
+  "--color-1": "#9776b5",
+  "--color-2": "#b783c9",
+  "--color-3": "#e2a477",
+  "--color-4": "#f0b56a",
+  "--color-5": "#f9bc28",
+  "--speed": "2.8s",
+} as CSSProperties;
 
 export function LandingPage() {
   const shouldReduceMotion = useReducedMotion();
@@ -147,8 +157,13 @@ export function LandingPage() {
                 smart visual systems for brands, businesses, and public spaces.
               </p>
               <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                <RainbowButton href={emailHref}>
-                  Start an Inquiry
+                <RainbowButton
+                  asChild
+                  className="h-12 rounded-full px-6 text-sm text-white"
+                  style={rainbowButtonStyle}
+                  variant="outline"
+                >
+                  <a href={emailHref}>Start an Inquiry</a>
                 </RainbowButton>
                 <p className="max-w-sm text-sm leading-6 text-white/50">
                   Temporary site for platform direction, capability focus, and
@@ -242,25 +257,27 @@ export function LandingPage() {
         <section id="mission" className="snap-section py-20 sm:py-24">
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10">
             <Reveal>
-              <div className="glass-panel relative overflow-hidden rounded-[2rem] border border-white/7 p-8 shadow-[0_32px_120px_rgba(0,0,0,0.44)] sm:p-10 lg:p-14">
+              <div className="glass-panel relative overflow-hidden rounded-[2rem] border border-white/7 px-8 py-10 shadow-[0_32px_120px_rgba(0,0,0,0.44)] sm:px-10 sm:py-12 lg:px-14 lg:py-16">
                 <div className="pointer-events-none absolute inset-x-1/4 top-0 h-40 rounded-full bg-amber-300/12 blur-3xl" />
-                <p className="mono-copy relative text-xs uppercase tracking-[0.32em] text-white/45">
-                  Mission
-                </p>
-                <p className="relative mt-6 max-w-5xl text-3xl leading-tight tracking-[-0.05em] text-white sm:text-4xl lg:text-[2.9rem] lg:leading-[1.1]">
-                  <TypewriterText
-                    characterDelay={24}
-                    className="min-h-[6.5em] sm:min-h-[5.2em] lg:min-h-[3.4em]"
-                    highlightWords={["intuitive", "immersive", "scalable"]}
-                    highlightVariant="kinetic"
-                    sessionKey="luminar-apps-mission-typewriter"
-                    startDelay={220}
-                    startOnView
-                    text="Our mission is to simplify and modernize how people connect with content, audiences, and experiences through intuitive software, immersive visuals, and scalable digital solutions."
-                    triggerOnScrollDown
-                    viewportAmount={0.45}
-                  />
-                </p>
+                <div className="relative mx-auto flex min-h-[20rem] max-w-5xl flex-col items-center justify-center text-center sm:min-h-[21rem] lg:min-h-[22rem]">
+                  <p className="mono-copy text-xs uppercase tracking-[0.32em] text-white/45">
+                    Mission
+                  </p>
+                  <p className="mt-6 w-full text-3xl leading-tight tracking-[-0.05em] text-white sm:text-4xl lg:text-[2.9rem] lg:leading-[1.1]">
+                    <TypewriterText
+                      characterDelay={24}
+                      className="min-h-[7em] sm:min-h-[5.8em] lg:min-h-[3.8em]"
+                      highlightWords={["intuitive", "immersive", "scalable"]}
+                      highlightVariant="kinetic"
+                      sessionKey="luminar-apps-mission-typewriter"
+                      startDelay={220}
+                      startOnView
+                      text="Our mission is to simplify and modernize how people connect with content, audiences, and experiences through intuitive software, immersive visuals, and scalable digital solutions."
+                      triggerOnScrollDown
+                      viewportAmount={0.45}
+                    />
+                  </p>
+                </div>
               </div>
             </Reveal>
           </div>

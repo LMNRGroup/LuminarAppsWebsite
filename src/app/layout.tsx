@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Sora } from "next/font/google";
+import { IBM_Plex_Mono, Sora, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const sora = Sora({
   display: "swap",
@@ -81,7 +84,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${sora.variable} ${ibmPlexMono.variable}`}>
+    <html
+      lang="en"
+      className={cn(
+        sora.variable,
+        ibmPlexMono.variable,
+        "dark font-sans",
+        geist.variable,
+      )}
+    >
       <body className={`${sora.className} min-h-screen bg-background text-foreground`}>
         {children}
       </body>

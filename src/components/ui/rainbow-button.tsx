@@ -1,72 +1,61 @@
-"use client";
+import React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, VariantProps } from "class-variance-authority"
 
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import { cn } from "@/lib/utils"
 
-import { cn } from "@/lib/utils";
-
-interface RainbowButtonBaseProps {
-  children: ReactNode;
-  className?: string;
-}
-
-type RainbowButtonProps =
-  | (RainbowButtonBaseProps &
-      ButtonHTMLAttributes<HTMLButtonElement> & {
-        href?: never;
-      })
-  | (RainbowButtonBaseProps &
-      AnchorHTMLAttributes<HTMLAnchorElement> & {
-        href: string;
-      });
-
-export function RainbowButton(props: RainbowButtonProps) {
-  const { children, className } = props;
-  const sharedClassName = cn(
-    "rainbow-button group relative inline-flex min-h-12 items-center justify-center overflow-hidden rounded-full px-[1px] py-[1px] text-sm font-semibold text-[#f7f2e8] transition-transform duration-300 hover:scale-[1.01]",
-    className,
-  );
-  const content = (
-    <>
-      <span className="rainbow-button-glow absolute inset-[-24%] rounded-full opacity-70 blur-xl transition duration-300 group-hover:opacity-100" />
-      <span className="rainbow-button-border absolute inset-0 rounded-full" />
-      <span className="absolute inset-[1px] rounded-full bg-[linear-gradient(180deg,rgba(17,20,27,0.96)_0%,rgba(10,12,17,0.98)_100%)]" />
-      <span className="absolute inset-x-10 top-[1px] h-[44%] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.24),transparent_68%)] opacity-80" />
-      <span className="relative z-10 px-6 py-3 tracking-[0.02em]">{children}</span>
-    </>
-  );
-
-  if ("href" in props && props.href) {
-    const anchorProps = props as RainbowButtonBaseProps &
-      AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
-    const restAnchorProps = {
-      ...anchorProps,
-    } as AnchorHTMLAttributes<HTMLAnchorElement> & {
-      children?: ReactNode;
-      className?: string;
-      href?: string;
-    };
-    delete restAnchorProps.children;
-    delete restAnchorProps.className;
-    const href = restAnchorProps.href ?? anchorProps.href;
-    delete restAnchorProps.href;
-
-    return (
-      <a className={sharedClassName} href={href} {...restAnchorProps}>
-        {content}
-      </a>
-    );
+const rainbowButtonVariants = cva(
+  cn(
+    "relative cursor-pointer group transition-all animate-rainbow",
+    "inline-flex items-center justify-center gap-2 shrink-0",
+    "rounded-sm outline-none focus-visible:ring-[3px] aria-invalid:border-destructive",
+    "text-sm font-medium whitespace-nowrap",
+    "disabled:pointer-events-none disabled:opacity-50",
+    "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0"
+  ),
+  {
+    variants: {
+      variant: {
+        default:
+          "border-0 bg-[linear-gradient(#121213,#121213),linear-gradient(#121213_50%,rgba(18,18,19,0.6)_80%,rgba(18,18,19,0)),linear-gradient(90deg,var(--color-1),var(--color-5),var(--color-3),var(--color-4),var(--color-2))] bg-[length:200%] text-primary-foreground [background-clip:padding-box,border-box,border-box] [background-origin:border-box] [border:calc(0.125rem)_solid_transparent] before:absolute before:bottom-[-20%] before:left-1/2 before:z-0 before:h-1/5 before:w-3/5 before:-translate-x-1/2 before:animate-rainbow before:bg-[linear-gradient(90deg,var(--color-1),var(--color-5),var(--color-3),var(--color-4),var(--color-2))] before:bg-[length:200%] before:[filter:blur(0.75rem)] dark:bg-[linear-gradient(#fff,#fff),linear-gradient(#fff_50%,rgba(255,255,255,0.6)_80%,rgba(0,0,0,0)),linear-gradient(90deg,var(--color-1),var(--color-5),var(--color-3),var(--color-4),var(--color-2))]",
+        outline:
+          "border border-input border-b-transparent bg-[linear-gradient(#ffffff,#ffffff),linear-gradient(#ffffff_50%,rgba(18,18,19,0.6)_80%,rgba(18,18,19,0)),linear-gradient(90deg,var(--color-1),var(--color-5),var(--color-3),var(--color-4),var(--color-2))] bg-[length:200%] text-accent-foreground [background-clip:padding-box,border-box,border-box] [background-origin:border-box] before:absolute before:bottom-[-20%] before:left-1/2 before:z-0 before:h-1/5 before:w-3/5 before:-translate-x-1/2 before:animate-rainbow before:bg-[linear-gradient(90deg,var(--color-1),var(--color-5),var(--color-3),var(--color-4),var(--color-2))] before:bg-[length:200%] before:[filter:blur(0.75rem)] dark:bg-[linear-gradient(#0a0a0a,#0a0a0a),linear-gradient(#0a0a0a_50%,rgba(255,255,255,0.6)_80%,rgba(0,0,0,0)),linear-gradient(90deg,var(--color-1),var(--color-5),var(--color-3),var(--color-4),var(--color-2))]",
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-xl px-3 text-xs",
+        lg: "h-11 rounded-xl px-8",
+        icon: "size-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
   }
+)
 
-  const buttonProps = props as RainbowButtonBaseProps &
-    ButtonHTMLAttributes<HTMLButtonElement>;
-  const restButtonProps = { ...buttonProps };
-  delete restButtonProps.children;
-  delete restButtonProps.className;
-  delete restButtonProps.type;
-
-  return (
-    <button className={sharedClassName} type="button" {...restButtonProps}>
-      {content}
-    </button>
-  );
+interface RainbowButtonProps
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof rainbowButtonVariants> {
+  asChild?: boolean
 }
+
+const RainbowButton = React.forwardRef<HTMLButtonElement, RainbowButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        data-slot="button"
+        className={cn(rainbowButtonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+
+RainbowButton.displayName = "RainbowButton"
+
+export { RainbowButton, rainbowButtonVariants, type RainbowButtonProps }

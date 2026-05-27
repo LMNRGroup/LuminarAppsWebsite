@@ -4,7 +4,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { KineticWord } from "@/components/ui/kinetic-word";
+import { KineticText } from "@/components/ui/kinetic-text";
 
 interface TypewriterTextProps {
   characterDelay?: number;
@@ -228,9 +228,10 @@ export function TypewriterText({
 
       if (highlightVariant === "kinetic") {
         segments.push(
-          <KineticWord
+          <KineticText
+            as="span"
+            className="inline-flex align-baseline font-[380] text-white [--hover-padding:calc(1em/18)]"
             key={`${match.start}-${match.end}`}
-            className="align-baseline"
             text={highlightedText}
           />,
         );
